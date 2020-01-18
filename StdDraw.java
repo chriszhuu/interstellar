@@ -1469,6 +1469,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
         double ys = scaleY(y);
         int ws = metrics.stringWidth(text);
         int hs = metrics.getDescent();
+        offscreen.setColor(Color.WHITE);
         offscreen.drawString(text, (float) (xs - ws/2.0), (float) (ys + hs));
         draw();
     }

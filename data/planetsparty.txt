@@ -1,18 +1,12 @@
-10
-2.50e11
- 0.0e00    0.000e00   0.00e00   0.00e00   2e32 sun.gif
- 6.25e10   0.000e00   0.00e00   5.66e05   6e24 mercury.gif
--6.25e10   0.000e00   0.00e00  -5.66e05   6e24 earth.gif
- 0         6.250e10  -5.66e05   0.00e00   6e24 mars.gif
- 0        -6.250e10   5.66e05   0.00e00   6e24 venus.gif
- 2.828e11  2.828e11  100000 -100000   1e26 jupiter.gif
- 2.828e11 -2.828e11 -100000 -100000   1e26 saturn.gif
--2.828e11 -2.828e11 -100000  100000   1e26 uranus.gif
--2.828e11 2.828e11   100000  100000   1e26 neptune.gif
--1.828e11 1.828e11   100000  100000   1e16 pluto.gif
-
-
-Creator of this universe: Mary Fan
+6
+8.0e11
+ 1.4960e+11  0.0000e+00  0.0000e+00  2.9800e+04  5.9740e+24  6.53e+06     earth.gif
+ 2.2790e+11  0.0000e+00  0.0000e+00  2.3900e+04  6.4190e+23  0.0000e+00   mars.gif
+ 5.7900e+10  0.0000e+00  0.0000e+00  4.7900e+04  3.3020e+23  0.0000e+00  mercury.gif
+ 0.0000e+00  0.0000e+00  0.0000e+00  0.0000e+00  1.9890e+30  0.0000e+00    sun.gif
+ 1.0820e+11  0.0000e+00  0.0000e+00  3.5000e+04  4.8690e+24  0.0000e+00  venus.gif
+ 7.7840e11 0.0000e+00 0.0000e+00  1.2900e+04  1.9e27 0.0000e+00 jupiter.gif
+Creator of this universe: 
     
 The inner planets party, with those giant gas outer planets
 joining in the fun every so often. Pluto, who is not a real planet,
