@@ -6,14 +6,16 @@ public class Planet {
 	public double yyVel;
 	public double mass;
 	public String imgFileName;
+	public double radius;
 
 
-	public Planet(double xP, double yP, double xV, double yV, double m, String img){
+	public Planet(double xP, double yP, double xV, double yV, double m, double r, String img){
 		this.xxPos = xP;
 		this.yyPos = yP;
 		this.xxVel = xV;
 		this.yyVel = yV;
 		this.mass = m;
+		this.radius = r;
 		this.imgFileName = img;
 	}
 	public Planet(Planet b){
@@ -22,6 +24,7 @@ public class Planet {
 		this.xxVel = b.xxVel;
 		this.yyVel = b.yyVel;
 		this.mass = b.mass;
+		this.radius = b.radius;
 		this.imgFileName = b.imgFileName;
 	}
 	public double calcDistance(Planet b){
