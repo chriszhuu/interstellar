@@ -1,12 +1,13 @@
 public class Planet {
 	
-	private final double g = 6.67e-11;
+	public final double g = 6.67e-11;
 	public Vector2 pos;
 	public Vector2 vel;
 	public Vector2 force;
 	public double mass;
 	public double radius;
 	public String imgFileName;
+
 
 	public Planet(Vector2 pos,Vector2 vel, double m, double r, String img) {
 		this.pos = pos;

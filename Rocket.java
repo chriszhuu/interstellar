@@ -1,12 +1,14 @@
 public class Rocket extends Planet {
 	
-	private boolean exploded;
-	private Vector2 explodePos;
-	private double explodeTime;
+	protected boolean exploded;
+	protected Vector2 explodePos;
+	protected double explodeTime;
+	public boolean tookoff;
 
     public Rocket(Vector2 pos,Vector2 vel, double m, double r, String img) {
         super(pos, vel, m, r, img);
         this.exploded = false;
+        this.tookoff = false;
     }
     
     public void applyForces(Planet[] bodies, Planet earth) {
@@ -34,9 +36,10 @@ public class Rocket extends Planet {
     }
     
     public void explode() {
+    	if (this.exploded) return;
     	this.exploded = true;
     	this.explodePos = this.pos;
-    	this.explodeTime = 1e6;
+    	this.explodeTime = 5e5;
     }
     
     @Override
