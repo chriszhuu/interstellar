@@ -570,7 +570,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
     private static Color penColor;
 
     // default canvas size is DEFAULT_SIZE-by-DEFAULT_SIZE
-    private static final int DEFAULT_SIZE = 512;
+    private static final int DEFAULT_SIZE = 1024;
     private static int width  = DEFAULT_SIZE;
     private static int height = DEFAULT_SIZE;
 
@@ -1469,6 +1469,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
         double ys = scaleY(y);
         int ws = metrics.stringWidth(text);
         int hs = metrics.getDescent();
+        offscreen.setColor(Color.WHITE);
         offscreen.drawString(text, (float) (xs - ws/2.0), (float) (ys + hs));
         draw();
     }
