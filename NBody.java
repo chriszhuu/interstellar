@@ -62,9 +62,10 @@ public class NBody {
 
             if (StdDraw.isKeyPressed(KeyEvent.VK_UP)) {
                 rocket.addUserForse(true);
-                rocket.drawFlameBack();
+                rocket.drawFlame(true);
             } else if (StdDraw.isKeyPressed(KeyEvent.VK_DOWN)) {
                 rocket.addUserForse(false);
+                rocket.drawFlame(false);
             }
             rocket.update(dt);
             rocket.draw();

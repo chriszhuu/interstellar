@@ -14,7 +14,7 @@ public class Rocket extends Planet {
     
     public void addUserForse(boolean forward) {
     	if (forward) {
-    		this.force = this.force.add(this.vel.unit().mul(5e2));
+    		this.force = this.force.add(this.vel.unit().mul(1e3));
     	}
     }
     
@@ -33,10 +33,17 @@ public class Rocket extends Planet {
         StdDraw.text(2e+11, 2.40e+11,"vel: "+ String.valueOf((int)this.vel.magnitude())+"m/s");
     }
 
-    public void drawFlameBack() {
+    public void drawFlame(boolean back) {
         StdDraw.enableDoubleBuffering();
-        Vector2 flamePos = this.pos.sub(this.vel.unit().mul(12.5e9));
-        StdDraw.picture(flamePos.x, flamePos.y, "images/fireflame.gif", 2.2e10, 1.8e10, this.headAngle());
+        Vector2 flamePos;
+        if (back) {
+        	flamePos = this.pos.sub(this.vel.unit().mul(12.5e9));
+        } else {
+        	flamePos = this.pos.add(this.vel.unit().mul(13e9));
+        }
+        double angle = this.headAngle();
+        if (!back) angle += 180;
+        StdDraw.picture(flamePos.x, flamePos.y, "images/fireflame.gif", 2.2e10, 1.8e10, angle);
     }
 
 }
