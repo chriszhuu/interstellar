@@ -1,7 +1,6 @@
 import java.util.LinkedList;
 import java.util.Queue;
 
-
 public class Trajectory {
 
     private Queue<Vector2> traj = new LinkedList<>();

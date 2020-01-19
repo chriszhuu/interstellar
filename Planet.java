@@ -1,4 +1,5 @@
 public class Planet {
+	
 	private final double g = 6.67e-11;
 	public Vector2 pos;
 	public Vector2 vel;
@@ -7,7 +8,7 @@ public class Planet {
 	public double radius;
 	public String imgFileName;
 
-	public Planet(Vector2 pos,Vector2 vel, double m, double r, String img){
+	public Planet(Vector2 pos,Vector2 vel, double m, double r, String img) {
 		this.pos = pos;
 		this.vel = vel;
 		this.mass = m;
@@ -17,6 +18,13 @@ public class Planet {
 
 	public double distance2(Vector2 target) {
 		return this.pos.sub(target).magnitude();
+	}
+	
+	public boolean collides(Planet[] bodies, double multi) {
+		for (Planet p : bodies) {
+			if (this.pos.sub(p.pos).magnitude() / multi < this.radius + p.radius) return true;
+		}
+		return false;
 	}
 	
 	public void applyForces(Planet[] bodies) {

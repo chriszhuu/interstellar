@@ -1,14 +1,15 @@
 import java.awt.event.KeyEvent;
 
 public class NBody {
-    public static double readRadius(String fileName){
+	
+    public static double readRadius(String fileName) {
         In in = new In (fileName);
         in.readInt();
         double radius = in.readDouble();
         return radius;
     }
 
-    public static Planet[] readPlanets(String filename){
+    public static Planet[] readPlanets(String filename) {
         In in = new In (filename);
         Planet[] bodies = new Planet[in.readInt()];
         in.readDouble();
@@ -25,24 +26,27 @@ public class NBody {
         return bodies;
     }
 
-    public static void main (String[] args){
-        double T = 157788000000000000000000.0;
+    public static void main (String[] args) {
         double dt = 25000.0;
         String filename = "data/planets.txt";
+        
         double radius = readRadius(filename);
         Planet[] bodies = readPlanets(filename);
         Planet earth = bodies[0];
-        Rocket rocket = new Rocket(new Vector2(earth.pos.x, earth.radius), earth.vel, 2.84e+5, 0, "rocket.png");
+        
+        Rocket rocket = new Rocket(new Vector2(earth.pos.x, earth.radius * 2), earth.vel, 2.84e+5, 0, "rocket.png");
 
         Trajectory traj = new Trajectory();
+        
         StdDraw.enableDoubleBuffering();
         StdDraw.setScale(-radius,radius);
+        
         long frame = 0;
+        boolean gameover = false;
 
-        for (double time = 0.0; time <= T; time += dt) {
-        	
-            StdDraw.picture(0, 0, "images/starfield.jpg",radius*2,radius*2);
-            frame++;
+        while (true) {
+        	frame++;
+            StdDraw.picture(0, 0, "images/starfield.jpg", radius * 2, radius * 2);
 
             for (Planet b : bodies) {
                 b.applyForces(bodies);
@@ -71,8 +75,16 @@ public class NBody {
             rocket.draw();
 
             if (Math.abs(rocket.pos.x) > radius || Math.abs(rocket.pos.y) > radius) {
-                StdDraw.picture(0,0,"images/gameover.gif");
+                gameover = true;
+            } else if (rocket.collides(bodies, 1)) {
+            	gameover = true;
+            	rocket.explode();
             }
+            
+            if (gameover) {
+            	StdDraw.picture(0, 0, "images/gameover.gif");
+            }
+            
             StdDraw.show();
             StdDraw.pause(10);
         }
