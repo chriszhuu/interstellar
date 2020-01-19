@@ -12,7 +12,6 @@
  *
  *************************************************************************/
 
-import java.applet.*;
 import java.io.*;
 import java.net.*;
 import javax.sound.sampled.*;
@@ -147,8 +146,6 @@ public final class StdAudio {
         catch (MalformedURLException e) { e.printStackTrace(); }
         // URL url = StdAudio.class.getResource(filename);
         if (url == null) throw new RuntimeException("audio " + filename + " not found");
-        AudioClip clip = Applet.newAudioClip(url);
-        clip.play();
     }
 
     /**
@@ -163,8 +160,6 @@ public final class StdAudio {
         catch (MalformedURLException e) { e.printStackTrace(); }
         // URL url = StdAudio.class.getResource(filename);
         if (url == null) throw new RuntimeException("audio " + filename + " not found");
-        AudioClip clip = Applet.newAudioClip(url);
-        clip.loop();
     }
 
 

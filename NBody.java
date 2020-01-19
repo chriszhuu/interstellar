@@ -3,7 +3,7 @@ import java.awt.event.KeyEvent;
 public class NBody {
     public static double readRadius(String fileName){
         In in = new In (fileName);
-        int num = in.readInt();
+        in.readInt();
         double radius = in.readDouble();
         return radius;
     }
@@ -11,16 +11,16 @@ public class NBody {
     public static Planet[] readPlanets(String filename){
         In in = new In (filename);
         Planet[] bodies = new Planet[in.readInt()];
-        double radius = in.readDouble();
+        in.readDouble();
         for (int i = 0; i < bodies.length; i++){
-            double xxPos = in.readDouble();
-            double yyPos = in.readDouble();
-            double xxVel = in.readDouble();
-            double yyVel = in.readDouble();
+            double xpos = in.readDouble();
+            double ypos = in.readDouble();
+            double xvel = in.readDouble();
+            double yvel = in.readDouble();
             double mass = in.readDouble();
-            double planetRadius = in.readDouble();
+            double radius = in.readDouble();
             String imgFileName = in.readString();
-            bodies[i] = new Planet (xxPos,yyPos,xxVel,yyVel,mass,planetRadius,imgFileName);
+            bodies[i] = new Planet (new Vector2(xpos, ypos), new Vector2(xvel, yvel), mass, radius, imgFileName);
         }
         return bodies;
     }
@@ -32,7 +32,7 @@ public class NBody {
         double radius = readRadius(filename);
         Planet[] bodies = readPlanets(filename);
         Planet earth = bodies[0];
-        Rocket rocket = new Rocket(earth.xxPos, earth.radius, earth.xxVel, earth.yyVel, 2.84e+5, 0, "rocket.png");
+        Rocket rocket = new Rocket(new Vector2(earth.pos.x, earth.radius), earth.vel, 2.84e+5, 0, "rocket.png");
 
         Trajectory traj = new Trajectory();
         StdDraw.enableDoubleBuffering();
@@ -40,24 +40,19 @@ public class NBody {
         long frame = 0;
 
         for (double time = 0.0; time <= T; time += dt) {
+        	
             StdDraw.picture(0, 0, "images/starfield.jpg",radius*2,radius*2);
             frame++;
-            double[] xForces = new double[bodies.length];
-            double[] yForces = new double[bodies.length];
-            int i = 0;
+
             for (Planet b : bodies) {
-                xForces[i] = b.calcNetForceExertedByX(bodies);
-                yForces[i] = b.calcNetForceExertedByY(bodies);
-                b.update(dt, xForces[i], yForces[i]);
-                i++;
+                b.applyForces(bodies);
+                b.update(dt);
             }
-            double rocketX = rocket.calcNetForceExertedByX(bodies);
-            rocketX += rocket.calcSupportX(earth);
-            double rocketY = rocket.calcNetForceExertedByY(bodies);
-            rocketY += rocket.calcSupportY(earth);
+            
+            rocket.applyForces(bodies, earth);
 
             if (frame % 10 == 0) {
-                traj.add(new Vector2(rocket.xxPos, rocket.yyPos));
+                traj.add(rocket.pos);
             }
             traj.draw();
 
@@ -66,32 +61,20 @@ public class NBody {
             }
 
             if (StdDraw.isKeyPressed(KeyEvent.VK_UP)) {
-                rocketX += rocket.userForceX();
-                rocketY += rocket.userForceY();
+                rocket.addUserForse(true);
                 rocket.drawFlameBack();
             } else if (StdDraw.isKeyPressed(KeyEvent.VK_DOWN)) {
-                rocketX -= rocket.userForceX();
-                rocketY -= rocket.userForceY();
+                rocket.addUserForse(false);
             }
-            rocket.update(dt,rocketX,rocketY);
+            rocket.update(dt);
             rocket.draw();
 
-            if (Math.abs(rocket.xxPos) > radius || Math.abs(rocket.yyPos) > radius) {
-
+            if (Math.abs(rocket.pos.x) > radius || Math.abs(rocket.pos.y) > radius) {
                 StdDraw.picture(0,0,"images/gameover.gif");
             }
             StdDraw.show();
             StdDraw.pause(10);
         }
-
-        StdOut.printf("%d\n", bodies.length);
-        StdOut.printf("%.2e\n", radius);
-        for (int i = 0; i < bodies.length; i++) {
-            StdOut.printf("%11.4e %11.4e %11.4e %11.4e %11.4e %12s\n",
-                    bodies[i].xxPos, bodies[i].yyPos, bodies[i].xxVel,
-                    bodies[i].yyVel, bodies[i].mass, bodies[i].imgFileName);
-        }
-
     }
 
 

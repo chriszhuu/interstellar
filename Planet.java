@@ -1,95 +1,45 @@
 public class Planet {
 	private final double g = 6.67e-11;
-	public double xxPos;
-	public double yyPos;
-	public double xxVel;
-	public double yyVel;
+	public Vector2 pos;
+	public Vector2 vel;
+	public Vector2 force;
 	public double mass;
-	public String imgFileName;
 	public double radius;
+	public String imgFileName;
 
-
-	public Planet(double xP, double yP, double xV, double yV, double m, double r, String img){
-		this.xxPos = xP;
-		this.yyPos = yP;
-		this.xxVel = xV;
-		this.yyVel = yV;
+	public Planet(Vector2 pos,Vector2 vel, double m, double r, String img){
+		this.pos = pos;
+		this.vel = vel;
 		this.mass = m;
 		this.radius = r;
 		this.imgFileName = img;
 	}
-	public Planet(Planet b){
-		this.xxPos = b.xxPos;
-		this.yyPos = b.yyPos;
-		this.xxVel = b.xxVel;
-		this.yyVel = b.yyVel;
-		this.mass = b.mass;
-		this.radius = b.radius;
-		this.imgFileName = b.imgFileName;
-	}
-	public double calcDistance(Planet b){
-		double dx = b.xxPos - this.xxPos;
-		double dy = b.yyPos - this.yyPos;
-		double r = Math.pow((Math.pow(dx,2) + Math.pow(dy,2)),0.5);
-		return r;
-	}
 
-	public double calcForceExertedBy(Planet b){
-		double r = this.calcDistance(b);
-		double force = this.mass * b.mass * g / Math.pow(r,2);
-		return force;
+	public double distance2(Vector2 target) {
+		return this.pos.sub(target).magnitude();
 	}
-
-	public double calcForceExertedByX(Planet b){
-		double r = this.calcDistance(b);
-		double dx = b.xxPos - this.xxPos;
-		double force = this.calcForceExertedBy(b);
-		double xforce = force * dx / r;
-		return xforce;
-	}
-
-	public double calcForceExertedByY(Planet b){
-		double r = this.calcDistance(b);
-		double dy = b.yyPos - this.yyPos;
-		double force = this.calcForceExertedBy(b);
-		double yforce = force * dy / r;
-		return yforce;
-	}
-
-	public double calcNetForceExertedByX(Planet[] bodies){
-		double netX = 0.0;
-		for (Planet b : bodies){
-			if (this.equals(b)){
-				continue;
-			}
-			netX += this.calcForceExertedByX(b);
+	
+	public void applyForces(Planet[] bodies) {
+		this.force = Vector2.zero();
+		for (Planet p : bodies) {
+			this.applyGravity(p);
 		}
-		return netX;
 	}
 
-	public double calcNetForceExertedByY(Planet[] bodies){
-		double netY = 0.0;
-		for (Planet b : bodies){
-			if (this.equals(b)){
-				continue;
-			}
-			netY += this.calcForceExertedByY(b);
-		}
-		return netY;
+	protected void applyGravity(Planet other) {
+		double r = this.distance2(other.pos);
+		double amount = this.mass * other.mass * g / Math.pow(r,2);
+		this.force.add(other.pos.sub(this.pos).unit().mul(amount));
 	}
 
-	public void update(double dt, double fX, double fY){
-		double aX = fX / this.mass;
-		double aY = fY / this.mass;
-		this.xxVel += aX * dt;
-		this.yyVel += aY * dt;
-		this.xxPos += this.xxVel * dt;
-		this.yyPos += this.yyVel * dt;
+	public void update(double dt) {
+		this.vel.add(this.force.mul(1 / this.mass).mul(dt));
+		this.pos.add(this.vel.mul(dt));
 	}
 
 	public void draw(){
 		StdDraw.enableDoubleBuffering();
-		StdDraw.picture(xxPos,yyPos,"images/"+imgFileName);
+		StdDraw.picture(this.pos.x, this.pos.y,"images/"+imgFileName);
 	}
 
 }

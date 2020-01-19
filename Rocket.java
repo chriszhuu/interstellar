@@ -1,54 +1,42 @@
 public class Rocket extends Planet {
 
-    public Rocket(double xP, double yP, double xV, double yV, double m, double r, String img) {
-        super(xP, yP, xV, yV, m, r, img);
+    public Rocket(Vector2 pos,Vector2 vel, double m, double r, String img) {
+        super(pos, vel, m, r, img);
     }
-
-    public double calcSupportX(Planet earth) {
-        if (this.calcDistance(earth) < earth.radius * 100) {
-            return -this.calcForceExertedByX(earth);
-        }
-        else return 0;
+    
+    public void applyForces(Planet[] bodies, Planet earth) {
+    	this.force = Vector2.zero();
+		for (Planet p : bodies) {
+			if (p == earth && this.distance2(earth.pos) < earth.radius * 100) continue;
+			this.applyGravity(p);
+		}
     }
-
-    public double calcSupportY(Planet earth) {
-        if (this.calcDistance(earth) < earth.radius * 100) {
-            return -this.calcForceExertedByY(earth);
-        }
-        else return 0;
+    
+    public void addUserForse(boolean forward) {
+    	if (forward) {
+    		this.force.add(this.vel.unit().mul(5e2));
+    	}
     }
-
-    public double speed() {
-        return Math.pow((Math.pow(this.xxVel,2) + Math.pow(this.yyVel,2)),0.5);
+    
+    public double headAngle() {
+    	 double degree = Math.atan(this.vel.y / this.vel.x) / Math.PI * 180;
+         if (this.vel.x < 0) {
+             degree += 180;
+         }
+         return degree;
     }
-
-    public double userForceX(){
-        return this.xxVel / this.speed() * 0.5e+3;
-    }
-
-    public double userForceY(){
-        return this.yyVel / this.speed() * 0.5e+3;
-    }
-
 
     @Override
     public void draw() {
-        double degree = Math.atan(yyVel / xxVel) / Math.PI * 180;
-        if (xxVel < 0) {
-            degree = 180 + degree;
-        }
         StdDraw.enableDoubleBuffering();
-        StdDraw.picture(xxPos,yyPos,"images/"+imgFileName,2.5e10,2e10,degree - 90);
-        StdDraw.text(2e+11, 2.40e+11,"vel: "+ String.valueOf((int)this.speed())+"m/s");
+        StdDraw.picture(this.pos.x, this.pos.y, "images/"+imgFileName, 2.5e10, 2e10, this.headAngle() - 90);
+        StdDraw.text(2e+11, 2.40e+11,"vel: "+ String.valueOf((int)this.vel.magnitude())+"m/s");
     }
 
     public void drawFlameBack() {
-        double degree = Math.atan(yyVel / xxVel) / Math.PI * 180;
-        if (xxVel < 0) {
-            degree = 180 + degree;
-        }
         StdDraw.enableDoubleBuffering();
-        StdDraw.picture(xxPos - userForceX() * 2.5e7,yyPos - userForceY() * 2.5e7, "images/fireflame.gif",2.2e10,1.8e10,degree);
+        Vector2 flamePos = this.pos.sub(this.vel.unit().mul(12.5e9));
+        StdDraw.picture(flamePos.x, flamePos.y, "images/fireflame.gif", 2.2e10, 1.8e10, this.headAngle());
     }
 
 }
