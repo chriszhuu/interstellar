@@ -29,6 +29,11 @@ public class Vector2 {
     	return new Vector2(this.x / magnitude, this.y / magnitude);
     }
     
+    @Override
+    public String toString() {
+    	return "(" + this.x + ", " + this.y + ")";
+    }
+    
     public static Vector2 zero() {
     	return new Vector2(0, 0);
     }

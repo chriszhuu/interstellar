@@ -27,19 +27,20 @@ public class Planet {
 	}
 
 	protected void applyGravity(Planet other) {
+		if (this == other) return;
 		double r = this.distance2(other.pos);
 		double amount = this.mass * other.mass * g / Math.pow(r,2);
-		this.force.add(other.pos.sub(this.pos).unit().mul(amount));
+		this.force = this.force.add(other.pos.sub(this.pos).unit().mul(amount));
 	}
 
 	public void update(double dt) {
-		this.vel.add(this.force.mul(1 / this.mass).mul(dt));
-		this.pos.add(this.vel.mul(dt));
+		this.vel = this.vel.add(this.force.mul(1 / this.mass).mul(dt));
+		this.pos = this.pos.add(this.vel.mul(dt));
 	}
 
-	public void draw(){
+	public void draw() {
 		StdDraw.enableDoubleBuffering();
-		StdDraw.picture(this.pos.x, this.pos.y,"images/"+imgFileName);
+		StdDraw.picture(this.pos.x, this.pos.y, "images/" + imgFileName);
 	}
 
 }

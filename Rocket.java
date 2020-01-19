@@ -14,7 +14,7 @@ public class Rocket extends Planet {
     
     public void addUserForse(boolean forward) {
     	if (forward) {
-    		this.force.add(this.vel.unit().mul(5e2));
+    		this.force = this.force.add(this.vel.unit().mul(5e2));
     	}
     }
     
