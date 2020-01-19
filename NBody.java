@@ -27,7 +27,7 @@ public class NBody {
 
     public static void main (String[] args){
         double T = 157788000000000000000000.0;
-        double dt = 25000.0;
+        double dt = 30000.0;
         String filename = "data/planets.txt";
         double radius = readRadius(filename);
         Planet[] bodies = readPlanets(filename);
@@ -72,12 +72,12 @@ public class NBody {
             } else if (StdDraw.isKeyPressed(KeyEvent.VK_DOWN)) {
                 rocketX -= rocket.userForceX();
                 rocketY -= rocket.userForceY();
+                rocket.drawBrakingGas();
             }
             rocket.update(dt,rocketX,rocketY);
             rocket.draw();
 
             if (Math.abs(rocket.xxPos) > radius || Math.abs(rocket.yyPos) > radius) {
-
                 StdDraw.picture(0,0,"images/gameover.gif");
             }
             StdDraw.show();
@@ -91,7 +91,6 @@ public class NBody {
                     bodies[i].xxPos, bodies[i].yyPos, bodies[i].xxVel,
                     bodies[i].yyVel, bodies[i].mass, bodies[i].imgFileName);
         }
-
     }
 
 

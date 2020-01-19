@@ -23,11 +23,11 @@ public class Rocket extends Planet {
     }
 
     public double userForceX(){
-        return this.xxVel / this.speed() * 0.5e+3;
+        return this.xxVel / this.speed() * 1e+3;
     }
 
     public double userForceY(){
-        return this.yyVel / this.speed() * 0.5e+3;
+        return this.yyVel / this.speed() * 1e+3;
     }
 
 
@@ -39,7 +39,7 @@ public class Rocket extends Planet {
         }
         StdDraw.enableDoubleBuffering();
         StdDraw.picture(xxPos,yyPos,"images/"+imgFileName,2.5e10,2e10,degree - 90);
-        StdDraw.text(2e+11, 2.40e+11,"vel: "+ String.valueOf((int)this.speed())+"m/s");
+        StdDraw.text(2.1e+11, 2.40e+11,"Speed: "+ (int) this.speed() +"m/s");
     }
 
     public void drawFlameBack() {
@@ -48,7 +48,15 @@ public class Rocket extends Planet {
             degree = 180 + degree;
         }
         StdDraw.enableDoubleBuffering();
-        StdDraw.picture(xxPos - userForceX() * 2.5e7,yyPos - userForceY() * 2.5e7, "images/fireflame.gif",2.2e10,1.8e10,degree);
+        StdDraw.picture(xxPos - userForceX() * 1.25e7,yyPos - userForceY() * 1.25e7, "images/fireflame.gif",2.2e10,1.8e10,degree);
     }
 
+    public void drawBrakingGas() {
+        double degree = Math.atan(yyVel / xxVel) / Math.PI * 180;
+        if (xxVel < 0) {
+            degree = 180 + degree;
+        }
+        StdDraw.enableDoubleBuffering();
+        StdDraw.picture(xxPos + userForceX() * 1.35e7,yyPos + userForceY() * 1.35e7, "images/fireflame.gif",2.2e10,1.8e10,degree+180);
+    }
 }

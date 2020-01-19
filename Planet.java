@@ -7,6 +7,7 @@ public class Planet {
 	public double mass;
 	public String imgFileName;
 	public double radius;
+	public double acceleration;
 
 
 	public Planet(double xP, double yP, double xV, double yV, double m, double r, String img){
