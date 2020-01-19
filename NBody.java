@@ -92,6 +92,8 @@ public class NBody {
 
             if (win) {
                 StdDraw.picture(0, 0, "images/victory.gif");
+                StdDraw.picture(1.3e11, 0, "images/victory.gif");
+                StdDraw.picture(-1.3e11, 0, "images/victory.gif");
             }
 
             rocket.applyForces(bodies, earth);

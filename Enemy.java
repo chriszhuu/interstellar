@@ -1,4 +1,4 @@
-public class Enemy extends Rocket {
+public class Enemy extends AirCraft {
 
     private Planet orbit;
     private double theta;
@@ -6,7 +6,11 @@ public class Enemy extends Rocket {
     private double angvel;
 
     public Enemy(Planet planet) {
-        super(planet.pos, planet.vel, 1, 5e9, "enemyRed.gif");
+        this.pos = planet.pos;
+        this.vel = planet.vel;
+        this.mass = 1;
+        this.radius = 5e9;
+        this.imgFileName = "enemyRed.gif";
         this.orbit = planet;
         this.theta = 0;
         this.dist = planet.radius * 2;
